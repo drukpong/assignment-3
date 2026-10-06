@@ -1,0 +1,37 @@
+name: Assignment 3 CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make scripts executable
+        run: |
+          chmod +x app/app.sh
+          chmod +x scripts/lint.sh
+          chmod +x scripts/build.sh
+          chmod +x tests/test.sh
+          chmod +x grade.sh
+
+      - name: Run lint checks
+        run: ./scripts/lint.sh
+
+      - name: Run tests
+        run: ./tests/test.sh
+
+      - name: Build Docker image
+        run: docker build -t assignment-3-diagnostic .
+
+      - name: Docker smoke test
+        run: docker run --rm assignment-3-diagnostic help

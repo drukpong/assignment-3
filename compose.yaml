@@ -1,0 +1,6 @@
+services:
+  diagnostic:
+    build: .
+    image: assignment-3-diagnostic
+    container_name: assignment-3-diagnostic
+    command: help
